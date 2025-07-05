@@ -7,48 +7,48 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
+
     steps:
-      # 1. Checkout your code
-      - uses: actions/checkout@v3
+      - name: Checkout code
+        uses: actions/checkout@v3
 
-      # 2. Set up QEMU (optional for multi‑arch; skip if only x86_64)
-      #- uses: docker/setup-qemu-action@v2
-      #- uses: docker/setup-buildx-action@v2
-
-      # 3. Log in to Docker Hub
       - name: Docker Hub Login
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      # 4. Determine a unique tag (short SHA)
       - name: Extract commit SHA
         id: vars
-        run: echo "SHA=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+        run: |
+          echo "SHA=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
+          echo "Extracted SHA: $(git rev-parse --short HEAD)"
 
-      # 5. Build & tag the image (cache‑busted)
+     
+
+      - name: Validate variables
+        run: |
+          echo "DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}"
+          echo "RENDER_SERVICE_ID: ${{ secrets.RENDER_SERVICE_ID }}"
+          echo "SHA: ${{ steps.vars.outputs.SHA }}"
+
       - name: Build Docker image
         run: |
-          docker build \
+          docker build --no-cache \
             --build-arg CACHEBUST=${{ steps.vars.outputs.SHA }} \
             -t ${{ secrets.DOCKER_USERNAME }}/ieee-wie-pwa:${{ steps.vars.outputs.SHA }} \
             -t ${{ secrets.DOCKER_USERNAME }}/ieee-wie-pwa:latest .
 
-      # 6. Push both tags
       - name: Push Docker images
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/ieee-wie-pwa:${{ steps.vars.outputs.SHA }}
           docker push ${{ secrets.DOCKER_USERNAME }}/ieee-wie-pwa:latest
 
-      # 7. (Optional) Verify the pushed digest
       - name: Show image digest
         run: |
-          docker inspect --format='{{index .RepoDigests 0}}' ${{ secrets.DOCKER_USERNAME }}/ieee-wie-pwa:latest
+          docker inspect --format='Digest: {{index .RepoDigests 0}}' ${{ secrets.DOCKER_USERNAME }}/ieee-wie-pwa:latest || echo "No digest found"
 
-      # 8. Trigger a new deploy on Render
       - name: Trigger Render redeploy
         run: |
-          curl -s -X POST \
-            https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys \
+          curl -s -X POST "https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys" \
             -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
             -H "Content-Type: application/json" \
             -d '{}' \
-          && echo "✅ Render redeploy invoked"
+          && echo "Render redeploy triggered!" || echo "Failed to trigger redeploy"

@@ -1,93 +1,60 @@
-/* Dark Theme + Typography + Motion */
-:root {
-  --bg: #0d1117;
-  --bg-light: #161b22;
-  --text: #c9d1d9;
-  --text-muted: #8b949e;
-  --accent: #58a6ff;
-  --highlight: #1f6feb;
-  --font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-}
-
 body {
   margin: 0;
-  font-family: var(--font);
-  background-color: var(--bg);
-  color: var(--text);
+  font-family: 'Share Tech Mono', monospace;
+  background-color: #000000;
+  color: #00ffcc;
+  overflow-x: hidden;
 }
 
 .App {
   display: flex;
-  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
   min-height: 100vh;
-  text-align: center;
-  padding: 2rem 1rem;
-  animation: fadeIn 1s ease-in;
+  padding: 50px 20px;
+  text-shadow: 0 0 5px #0ff, 0 0 10px #0ff;
 }
 
 .container {
   max-width: 900px;
-  margin: 0 auto;
-  padding: 2rem;
-  background-color: var(--bg-light);
-  border-radius: 12px;
-  box-shadow: 0 0 30px rgba(88, 166, 255, 0.08);
-  transition: transform 0.3s ease-in-out;
+  background: rgba(10, 10, 10, 0.9);
+  border: 2px solid #00ffcc;
+  border-radius: 15px;
+  padding: 40px;
+  backdrop-filter: blur(4px);
+  animation: fadeIn 1.2s ease-in-out;
 }
 
-.container:hover {
-  transform: scale(1.01);
-}
-
-h1, h2, h3 {
-  color: var(--accent);
+h2, h3 {
+  color: #00ffaa;
+  text-shadow: 0 0 5px #00ffaa, 0 0 10px #00ffaa;
 }
 
 a {
-  color: var(--accent);
-  text-decoration: none;
-}
-
-a:hover {
+  color: #72f7ff;
   text-decoration: underline;
 }
 
+a:hover {
+  color: #0ff;
+}
+
 ul {
-  list-style: disc;
   padding-left: 1.5rem;
-  text-align: left;
 }
 
 li {
-  margin-bottom: 0.5rem;
+  margin-bottom: 1rem;
+  line-height: 1.5;
 }
 
-.section, .event-info, .highlight, .schedule, .closing {
-  text-align: left;
-  margin: 2rem 0;
-  animation: fadeIn 1s ease forwards;
-}
-
-.session {
-  background-color: #0e1622;
-  padding: 1rem;
-  border-left: 4px solid var(--accent);
-  margin: 1.5rem 0;
-  border-radius: 6px;
-}
-
-.signature {
-  margin-top: 2rem;
-  color: var(--text-muted);
-  font-style: italic;
-}
-
-/* Animations */
 @keyframes fadeIn {
-  from { opacity: 0; transform: translateY(10px); }
-  to { opacity: 1; transform: translateY(0); }
-}
-
-.fade-in {
-  animation: fadeIn 1s ease forwards;
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
