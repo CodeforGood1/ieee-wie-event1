@@ -9,54 +9,39 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1. Checkout source code
       - name: Checkout code
         uses: actions/checkout@v3
 
-      # 2. (Optional) QEMU & Buildx for multi-arch builds
-      #- name: Set up QEMU
-      #  uses: docker/setup-qemu-action@v2
-      #- name: Set up Buildx
-      #  uses: docker/setup-buildx-action@v2
-
-      # 3. Log in to Docker Hub
       - name: Docker Hub Login
         run: echo "${{ secrets.DOCKER_PASSWORD }}" | docker login -u "${{ secrets.DOCKER_USERNAME }}" --password-stdin
 
-      # 4. Extract short commit SHA
       - name: Extract commit SHA
         id: vars
         run: echo "SHA=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
 
-      # 5. (Optional) Debug SHA value
       - name: Debug SHA
-        run: echo "Building image with tag: ${{ steps.vars.outputs.SHA }}"
+        run: echo "🔖 Using tag: ${{ steps.vars.outputs.SHA }}"
 
-      # 6. Build and tag Docker image without cache
       - name: Build Docker image
         run: |
-          docker build \
-            --no-cache \
+          docker build --no-cache \
             --build-arg CACHEBUST=${{ steps.vars.outputs.SHA }} \
             -t ${{ secrets.DOCKER_USERNAME }}/ieee-wie-pwa:${{ steps.vars.outputs.SHA }} \
             -t ${{ secrets.DOCKER_USERNAME }}/ieee-wie-pwa:latest .
 
-      # 7. Push both tags to Docker Hub
       - name: Push Docker images
         run: |
           docker push ${{ secrets.DOCKER_USERNAME }}/ieee-wie-pwa:${{ steps.vars.outputs.SHA }}
           docker push ${{ secrets.DOCKER_USERNAME }}/ieee-wie-pwa:latest
 
-      # 8. Show the pushed image digest
       - name: Show image digest
-        run: docker inspect --format='{{index .RepoDigests 0}}' ${{ secrets.DOCKER_USERNAME }}/ieee-wie-pwa:latest
+        run: |
+          docker inspect --format='📦 Digest: {{index .RepoDigests 0}}' ${{ secrets.DOCKER_USERNAME }}/ieee-wie-pwa:latest
 
-      # 9. Trigger Render redeploy
       - name: Trigger Render redeploy
         run: |
-          curl -s -X POST \
-            https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys \
+          curl -s -X POST "https://api.render.com/v1/services/${{ secrets.RENDER_SERVICE_ID }}/deploys" \
             -H "Authorization: Bearer ${{ secrets.RENDER_API_KEY }}" \
             -H "Content-Type: application/json" \
             -d '{}' \
-          && echo "✅ Render redeploy invoked"
+          && echo "🚀 Render redeploy triggered!"
