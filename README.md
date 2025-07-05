@@ -1,6 +1,6 @@
 # IEEE WIE Event PWA 🌐
 
-🎯 **Live:** [https://ieee-wie-pwa-v1.onrender.com](https://ieee-wie-pwa-v1.onrender.com)  
+🎯 **Live:** [https://ieee-wie-pwa-v1.onrender.com](https://ieee-wie-pwa-latest-1.onrender.com/)  
 🐳 **Docker Image:** `brahadeesh23/ieee-wie-pwa:v1`
 
 ## 🚀 Features
