@@ -1,18 +1,34 @@
-# -------- Stage 1: Build the React app --------
-FROM node:20 as build
+# ─── Stage 1: Build React App ─────────────────────────────────────────────────
+# Use an ARG to bust cache on every CI run
+ARG CACHEBUST=1
+FROM node:20-alpine AS build
 
 WORKDIR /app
-COPY package*.json ./
-RUN npm install
+
+# Copy only package manifests to leverage Docker layer caching
+COPY package.json package-lock.json ./
+RUN npm ci
+
+# Copy rest of the source
 COPY . .
+
+# Build the PWA
 RUN npm run build
 
-# -------- Stage 2: Serve it with NGINX --------
+# ─── Stage 2: Serve with NGINX ────────────────────────────────────────────────
 FROM nginx:alpine
+
+# Remove default config, if you want custom routing for client‑side apps:
+# RUN rm /etc/nginx/conf.d/default.conf
+# COPY nginx.conf /etc/nginx/conf.d/
+
+# Copy build output
 COPY --from=build /app/build /usr/share/nginx/html
 
-# Optional: Custom nginx config (skip for now)
 EXPOSE 80
-CMD ["nginx", "-g", "daemon off;"]
 
-ENV FORCE_REBUILD=1
+# Optional healthcheck
+HEALTHCHECK --interval=30s --timeout=5s \
+  CMD wget --quiet --spider http://localhost/ || exit 1
+
+CMD ["nginx", "-g", "daemon off;"]
