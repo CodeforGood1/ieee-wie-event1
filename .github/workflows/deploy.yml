@@ -17,7 +17,8 @@ jobs:
 
       - name: Extract commit SHA
         id: vars
-        run: echo "SHA=$(git rev-parse --short HEAD)" >> $GITHUB_OUTPUT
+        run: |
+          echo "SHA=$(git rev-parse --short HEAD)" >> "$GITHUB_OUTPUT"
 
       - name: Debug SHA
         run: echo "🔖 Using tag: ${{ steps.vars.outputs.SHA }}"
