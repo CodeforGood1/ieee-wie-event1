@@ -1,22 +1,57 @@
+:root {
+  --bg-color: #0d1117;
+  --text-color: #c9d1d9;
+  --accent: #58a6ff;
+  --highlight: #1f6feb;
+  --font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body {
+  margin: 0;
+  font-family: var(--font);
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
 .App {
-  font-family: 'Segoe UI', sans-serif;
-  background-color: #f8f8f8;
-  color: #333;
+  text-align: center;
   padding: 2rem;
-  line-height: 1.6;
+  animation: fadeIn 1.5s ease;
 }
 
 .container {
   max-width: 900px;
   margin: auto;
-  background: white;
+  background-color: #161b22;
+  border-radius: 10px;
   padding: 2rem;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-  border-radius: 12px;
+  box-shadow: 0 0 30px rgba(88, 166, 255, 0.1);
+  transition: transform 0.5s;
+}
+
+.container:hover {
+  transform: scale(1.01);
+}
+
+.title {
+  font-size: 2.8rem;
+  color: var(--accent);
+  margin-bottom: 0.5rem;
+}
+
+.intro {
+  font-size: 1.2rem;
+  color: #8b949e;
+  margin-bottom: 1.5rem;
+}
+
+.section, .schedule, .highlight, .closing {
+  margin: 2rem 0;
+  text-align: left;
 }
 
 a {
-  color: #007acc;
+  color: var(--accent);
   text-decoration: none;
 }
 
@@ -24,14 +59,38 @@ a:hover {
   text-decoration: underline;
 }
 
-h2 {
-  color: #be1250;
-}
-
-h3 {
-  color: #0f766e;
-}
-
 ul {
-  margin-left: 1.2rem;
+  text-align: left;
+  padding-left: 1.2rem;
+}
+
+.session {
+  margin: 1.5rem 0;
+  background: #0d1117;
+  border-left: 4px solid var(--accent);
+  padding: 1rem;
+  border-radius: 5px;
+}
+
+.signature {
+  margin-top: 2rem;
+  color: #8b949e;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fade-in {
+  animation: fadeIn 1s ease forwards;
+}
+
+.slide-up {
+  animation: slideUp 1s ease-out;
+}
+
+@keyframes slideUp {
+  from { transform: translateY(50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
 }
