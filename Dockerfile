@@ -14,3 +14,5 @@ COPY --from=build /app/build /usr/share/nginx/html
 # Optional: Custom nginx config (skip for now)
 EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
+
+ENV FORCE_REBUILD=1
