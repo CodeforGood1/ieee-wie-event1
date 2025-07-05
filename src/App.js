@@ -56,7 +56,7 @@ function App() {
 
           <p className="signature">Warm regards,<br/>
           <strong>IEEE WIE Affinity Group</strong><br/>
-          Rajalakshmi Engineering College</p>
+          Rajalakshmi Engineering College, Chennai 602105</p>
         </section>
       </div>
     </div>
