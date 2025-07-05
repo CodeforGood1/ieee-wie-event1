@@ -1,6 +1,9 @@
+/* Dark Theme + Typography + Motion */
 :root {
-  --bg-color: #0d1117;
-  --text-color: #c9d1d9;
+  --bg: #0d1117;
+  --bg-light: #161b22;
+  --text: #c9d1d9;
+  --text-muted: #8b949e;
   --accent: #58a6ff;
   --highlight: #1f6feb;
   --font: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -9,45 +12,35 @@
 body {
   margin: 0;
   font-family: var(--font);
-  background-color: var(--bg-color);
-  color: var(--text-color);
+  background-color: var(--bg);
+  color: var(--text);
 }
 
 .App {
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
   text-align: center;
-  padding: 2rem;
-  animation: fadeIn 1.5s ease;
+  padding: 2rem 1rem;
+  animation: fadeIn 1s ease-in;
 }
 
 .container {
   max-width: 900px;
-  margin: auto;
-  background-color: #161b22;
-  border-radius: 10px;
+  margin: 0 auto;
   padding: 2rem;
-  box-shadow: 0 0 30px rgba(88, 166, 255, 0.1);
-  transition: transform 0.5s;
+  background-color: var(--bg-light);
+  border-radius: 12px;
+  box-shadow: 0 0 30px rgba(88, 166, 255, 0.08);
+  transition: transform 0.3s ease-in-out;
 }
 
 .container:hover {
   transform: scale(1.01);
 }
 
-.title {
-  font-size: 2.8rem;
+h1, h2, h3 {
   color: var(--accent);
-  margin-bottom: 0.5rem;
-}
-
-.intro {
-  font-size: 1.2rem;
-  color: #8b949e;
-  margin-bottom: 1.5rem;
-}
-
-.section, .schedule, .highlight, .closing {
-  margin: 2rem 0;
-  text-align: left;
 }
 
 a {
@@ -60,23 +53,36 @@ a:hover {
 }
 
 ul {
+  list-style: disc;
+  padding-left: 1.5rem;
   text-align: left;
-  padding-left: 1.2rem;
+}
+
+li {
+  margin-bottom: 0.5rem;
+}
+
+.section, .event-info, .highlight, .schedule, .closing {
+  text-align: left;
+  margin: 2rem 0;
+  animation: fadeIn 1s ease forwards;
 }
 
 .session {
-  margin: 1.5rem 0;
-  background: #0d1117;
-  border-left: 4px solid var(--accent);
+  background-color: #0e1622;
   padding: 1rem;
-  border-radius: 5px;
+  border-left: 4px solid var(--accent);
+  margin: 1.5rem 0;
+  border-radius: 6px;
 }
 
 .signature {
   margin-top: 2rem;
-  color: #8b949e;
+  color: var(--text-muted);
+  font-style: italic;
 }
 
+/* Animations */
 @keyframes fadeIn {
   from { opacity: 0; transform: translateY(10px); }
   to { opacity: 1; transform: translateY(0); }
@@ -84,30 +90,4 @@ ul {
 
 .fade-in {
   animation: fadeIn 1s ease forwards;
-}
-
-.slide-up {
-  animation: slideUp 1s ease-out;
-}
-
-@keyframes slideUp {
-  from { transform: translateY(50px); opacity: 0; }
-  to { transform: translateY(0); opacity: 1; }
-}
-@media (max-width: 600px) {
-  .title {
-    font-size: 2.2rem;
-  }
-  
-  .intro, .section, .schedule, .highlight, .closing {
-    font-size: 1rem;
-  }
-  
-  .container {
-    padding: 1rem;
-  }
-  
-  ul {
-    padding-left: 0.8rem;
-  }
 }
