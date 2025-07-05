@@ -54,7 +54,7 @@ function App() {
           <p>All students are encouraged to attend this enriching event.<br/>
           Explore career paths, ask questions, and be part of the future.</p>
 
-          <p className="signature">Warm regards,<br/>
+          <p className="signature">Regards,<br/>
           <strong>IEEE WIE Affinity Group</strong><br/>
           Rajalakshmi Engineering College, Chennai - 602105</p>
         </section>
